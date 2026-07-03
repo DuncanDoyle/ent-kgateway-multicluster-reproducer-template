@@ -1,0 +1,3 @@
+install/istio-*/
+install/certs/
+install/ew-gateway-*.yaml
