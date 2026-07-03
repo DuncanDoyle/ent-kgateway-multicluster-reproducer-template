@@ -17,3 +17,19 @@ deploy_backend() {
 deploy_backend "${context1}"
 deploy_backend "${context2}"
 echo "==> Global backend deployed in both clusters."
+
+# 2. kgateway proxy runs in ingress-gw; join it to the ambient mesh so its egress to the
+#    global backend goes over HBONE/ztunnel. Label BEFORE the proxy pod is created. (cluster-1)
+kubectl --context "${context1}" create namespace ingress-gw --dry-run=client -o yaml \
+  | kubectl --context "${context1}" apply -f -
+kubectl --context "${context1}" label namespace ingress-gw --overwrite istio.io/dataplane-mode=ambient
+
+# 3. Allow HTTPRoutes from the default namespace to attach to the Gateway.
+kubectl --context "${context1}" label namespace default --overwrite shared-gateway-access="true"
+
+# 4. Apply the Gateway, its parameters, and the route (cluster-1).
+kubectl --context "${context1}" apply -f "${SCRIPT_DIR}/gateways/gw-parameters.yaml"
+kubectl --context "${context1}" apply -f "${SCRIPT_DIR}/gateways/gw.yaml"
+kubectl --context "${context1}" apply -f "${SCRIPT_DIR}/routes/httpbin-httproute.yaml"
+
+echo "==> Setup complete. Run ./verify.sh"
