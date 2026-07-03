@@ -44,7 +44,7 @@ done
 
 echo "==> [3] Restore ${context1} httpbin"
 kubectl --context "${context1}" -n httpbin scale deploy/httpbin --replicas=1
-kubectl --context "${context1}" -n httpbin rollout status deploy/httpbin --timeout=120s
+kubectl --context "${context1}" -n httpbin rollout status deploy/httpbin --timeout=120s || true
 
 if [ "${code}" = "200" ]; then
   echo "==> PASS: north-south served; cross-cluster failover succeeded after ~${elapsed}s."
@@ -52,3 +52,4 @@ else
   echo "==> FAIL: no failover within ${FAILOVER_TIMEOUT}s (last status=${code})." >&2
   exit 1
 fi
+

@@ -28,7 +28,7 @@ to a **global** service that fails over cross-cluster over HBONE.
 ## Run in order
 
 ```sh
-source ./env.sh
+. ./env.sh
 ./install/00-create-shared-ca.sh     # shared root CA + cacerts in both clusters
 ./install/01-install-metallb.sh      # MetalLB; east-west LB ingress IP = each node's own IP
 ./install/02-install-ambient.sh      # istiod/cni/ztunnel (ambient IPv6 disabled)

@@ -3,8 +3,6 @@ set -e
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 . "${SCRIPT_DIR}/../env.sh"
 
-export K8S_GW_API_VERSION="v1.4.0"
-
 install_gwapi() {
   context=${1:?context}
   kubectl --context ${context} apply --server-side -f \
