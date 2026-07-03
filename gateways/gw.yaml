@@ -1,0 +1,22 @@
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: gw
+  namespace: ingress-gw
+spec:
+  gatewayClassName: enterprise-kgateway
+  infrastructure:
+    parametersRef:
+      name: custom-gw-params
+      group: enterprisekgateway.solo.io
+      kind: EnterpriseKgatewayParameters
+  listeners:
+    - protocol: HTTP
+      port: 80
+      name: http
+      allowedRoutes:
+        namespaces:
+          from: Selector   # only namespaces labeled shared-gateway-access=true
+          selector:
+            matchLabels:
+              shared-gateway-access: "true"

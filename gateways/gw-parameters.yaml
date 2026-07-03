@@ -1,0 +1,19 @@
+apiVersion: enterprisekgateway.solo.io/v1alpha1
+kind: EnterpriseKgatewayParameters
+metadata:
+  name: custom-gw-params
+  namespace: ingress-gw
+spec:
+  kube:
+    # ClusterIP + port-forward for north-south: MetalLB's only reachable pool IP (the node IP
+    # /32) is consumed by the east-west gateway, so a LoadBalancer proxy service would collide.
+    service:
+      type: ClusterIP
+    podTemplate:
+      extraAnnotations:
+        # External ingress arrives plaintext from outside the mesh; keep ztunnel from capturing
+        # inbound on the proxy pod (needed under PeerAuthentication STRICT; harmless otherwise).
+        ambient.istio.io/bypass-inbound-capture: "true"
+    envoyContainer:
+      bootstrap:
+        logLevel: info
