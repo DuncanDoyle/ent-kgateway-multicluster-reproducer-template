@@ -1,0 +1,8 @@
+agentgateway:
+  enabled: false
+controller:
+  logLevel: info
+  # Enables the Istio ServiceEntry/Hostname backend plugin so an HTTPRoute can target the
+  # global mesh service (httpbin.httpbin.mesh.internal). Required for ambient-backend routing.
+  extraEnv:
+    KGW_ENABLE_ISTIO_INTEGRATION: "true"
