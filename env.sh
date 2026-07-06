@@ -17,7 +17,10 @@ export EASTWEST_NAMESPACE=istio-eastwest
 export METALLB_VERSION=v0.14.9
 
 # --- Kubernetes Gateway API ---
-export K8S_GW_API_VERSION=v1.4.0
+# MUST track the GW API version the kgateway controller is built against. SEFK 2.2.x is based on
+# kgateway OSS 2.3.x (SEFK 2.2.4 -> OSS v2.3.5), which pins sigs.k8s.io/gateway-api v1.5.1.
+# Installing an older minor (e.g. v1.4.x) risks experimental-channel CRD field/validation skew.
+export K8S_GW_API_VERSION=v1.5.1
 
 # --- Enterprise kgateway (SEFK) ---
 # NOTE: SEFK 2.2.x officially supports Istio 1.25-1.29. We run 1.30.2-solo (above the

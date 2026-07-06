@@ -7,6 +7,11 @@ to a **global** service that fails over cross-cluster over HBONE.
 > ⚠️ **Version note:** SEFK 2.2.x officially supports Istio 1.25–1.29. This template runs Solo
 > Istio **1.30.2-solo** (one minor above the documented matrix) to reuse a proven ambient
 > multicluster foundation. It is expected to work but is **not a supported customer combination**.
+>
+> **Gateway API version (`K8S_GW_API_VERSION` in `env.sh`) must track the kgateway controller.**
+> SEFK 2.2.x is built on kgateway OSS **2.3.x** (SEFK 2.2.4 → OSS v2.3.5), which pins GW API
+> **v1.5.1** — so the template installs v1.5.1. If you bump the SEFK version, re-check the OSS base
+> in `gloo-gateway`'s `go.mod` and its `sigs.k8s.io/gateway-api` pin, and update this value.
 
 ## Prerequisites
 
