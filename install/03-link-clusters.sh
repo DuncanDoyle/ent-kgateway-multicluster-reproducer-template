@@ -4,7 +4,12 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 . "${SCRIPT_DIR}/../env.sh"
 cd "${SCRIPT_DIR}"
 
-# Optional pre-check.
+# Optional pre-check (baseline only). This runs BEFORE the east-west gateways and peers are
+# created below, so it is EXPECTED to report "no configured eastwest gateways / no configured
+# peers" and exit non-zero with "multicluster check found issues". That is normal on an
+# unlinked environment; `|| true` ignores it. The post-link check (see the final message) is
+# the one that should pass.
+echo "==> Pre-link baseline check (EXPECTED to fail: no gateways/peers configured yet)..."
 istioctl multicluster check --contexts="${context1},${context2}" || true
 
 create_ew_gateway() {
