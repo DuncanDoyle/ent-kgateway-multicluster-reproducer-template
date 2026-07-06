@@ -43,7 +43,8 @@ to a **global** service that fails over cross-cluster over HBONE.
 ./verify.sh                          # SUCCESS GATE: north-south 200, then failover 200
 ```
 
-Teardown: `./teardown.sh` (deletes both minikube profiles).
+Reset the workload layer (keep the linked mesh, then re-run `./setup.sh` for a new config):
+`./teardown.sh`. Delete the clusters entirely: `./destroy-clusters.sh`.
 
 ## How it works
 
