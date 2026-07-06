@@ -1,3 +1,3 @@
-install/istio-*/
-install/certs/
+install/certs/_generated/
+install/istio-*/                # leftover from the old download approach; no longer created
 install/ew-gateway-*.yaml

@@ -42,6 +42,12 @@ Teardown: `./teardown.sh` (deletes both minikube profiles).
 
 ## How it works
 
+- **Shared root CA:** multi-primary ambient multicluster requires both clusters to trust a common
+  root CA, so `00-create-shared-ca.sh` generates one root CA plus a per-cluster intermediate and
+  installs them as the `cacerts` secret in each `istio-system` **before** istiod starts. It does
+  this with Istio's standard `tools/certs` Makefiles, which are **vendored** under `install/certs/`
+  (see `install/certs/README.md`) — the script does *not* download the Istio release archive. Your
+  Solo `istioctl` on `PATH` is a prerequisite and is used unchanged by the later steps.
 - **Global service:** httpbin is deployed to the `httpbin` namespace in both clusters, the ns is
   ambient-enrolled (`istio.io/dataplane-mode=ambient`), and the Service is labeled
   `solo.io/service-scope=global` → auto-generates the `httpbin.httpbin.mesh.internal` ServiceEntry.
